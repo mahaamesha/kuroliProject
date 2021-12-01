@@ -15,6 +15,7 @@
 const byte CS = 4;  //pin chipSelect modul sd card
 const byte TRIG = 5;  //pin hcsr04
 const byte ECHO = 6;
+const byte PWM_GAS = A6;  //gas tangan. A6/7 analog only
 
 
 LiquidCrystal_I2C lcd(0x27,16,2);
@@ -28,8 +29,8 @@ struct structKuroli {
 
 struct structIna219 {
   float shuntvoltage; //mV
-  float busvoltage;   //V
-  float current_mA;   //mA
+  float busvoltage; //V
+  float current_mA; //mA
   float loadvoltage;  //V
 };
 
@@ -50,10 +51,14 @@ void setup(){
 
 void loop(){
   structIna219 myIna219 = {0,0,0,0};
-  structKuroli myKuroli = {0};
-  readIna219(myIna219);
-  sdWrite(myIna219, hc, myKuroli);
-  textIna219(myIna219);
+
+  float pwmGas = analogRead(PWM_GAS)*5.0/1024.0;
+  structKuroli myKuroli = {pwmGas};
+  
+  readIna219(myIna219); //baca shuntvoltage, busvoltage, current_mA, loadvoltage
+  sdWrite(myIna219, hc, myKuroli);  //log busvoltage, current_mA, distance, pwmGas
+  serialLog(myIna219, hc, myKuroli);
+  textIna219(myIna219); //lcd shuntvoltage, busvoltage, current_mA, loadvoltage
 }
 
 //SD FUNCTION
