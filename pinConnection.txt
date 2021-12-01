@@ -1,0 +1,20 @@
+INFO KONEKSI PIN
+SISTEM KUROLI
+
+SD      ARDUINO
+VCC     5V
+GND     GND
+MISO    12
+MOSI    11
+SCK     13
+CS      4
+
+LCD 16x2
+SDA     A4
+SDL     A5
+
+HCSR04
+TRIG    5
+ECHO    6
+
+OTHERS
