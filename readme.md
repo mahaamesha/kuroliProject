@@ -4,12 +4,11 @@ PROJECT KUROLI
 
 
 1 Desember 2021
-  folder src: hcsr04, ina219, lcd
-  main.ino
-    inisialisasi lcd, hcsr, sd, ina219
-    baca ina219
-    tampilkan ke LCD (voltageshunt, busvoltage, current_mA, loadvoltage)
-    simpan ke sd card (busvoltage, current_mA, distance, pwmGas)
-    tampilkan log ke serial
-  pinConnection.txt
-    SD, LCD, HCSR
+Folder src: hcsr04, ina219, lcd.
+Sketch main:
+  1. inisialisasi lcd, hcsr, sd, ina219;
+  2. baca ina219;
+  3. tampilkan ke LCD (voltageshunt, busvoltage, current_mA, loadvoltage);
+  4. simpan ke sd card (busvoltage, current_mA, distance, pwmGas);
+  5. tampilkan log ke serial.
+File PinConnection: SD, LCD, HCSR
