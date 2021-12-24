@@ -1,6 +1,12 @@
 PROJECT KUROLI
-
 @programmer mahaamesha
+
+Program untuk monitoring konsumsi daya, jarak, dan waktu penggunaan kursi roda lipat.\
+\
+Format:\
+time | load voltage | current_mA | power consumption | distance\
+
+
 
 
 1 Desember 2021\

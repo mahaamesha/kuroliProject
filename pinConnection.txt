@@ -7,11 +7,15 @@ GND     GND
 MISO    12
 MOSI    11
 SCK     13
-CS      4
+CS      10
 
-LCD 16x2
+LCD 16x2    (address 0x27)
 SDA     A4
 SDL     A5
+
+INA219      (address 0x40)
+SDA     A4
+SCL     A5
 
 HCSR04
 TRIG    5
