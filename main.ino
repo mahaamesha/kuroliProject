@@ -6,8 +6,8 @@
 #include "kuroli.h"
 
 const byte CS = 10;  //pin chipSelect modul sd card, ke pin SS arduino
-const byte TRIG = 5;  //pin hcsr04
-const byte ECHO = 6;
+//const byte TRIG = 5;  //pin hcsr04
+//const byte ECHO = 6;  //sudah diatur di header file
 const byte PWM_GAS = A6;  //gas tangan. A6/7 analog only
 
 Kuroli kuroli(PWM_GAS);
@@ -21,13 +21,13 @@ void setup(){
 }
 
 void loop(){
-  structIna219 myIna219 = {0,0,0,0};
+  structIna219 myIna219 = {0,0,0,0,0};
 
-  float pwmGas = analogRead(PWM_GAS)*5.0/1024.0;
-  structKuroli myKuroli = {pwmGas};
+  float pwmGasVoltage = analogRead(PWM_GAS)*5.0/1024.0;
+  structKuroli myKuroli = {pwmGasVoltage};
   
-  kuroli.readIna219(&myIna219); //baca shuntvoltage, busvoltage, current_mA, loadvoltage
-  kuroli.sdWrite(&myIna219, &myKuroli);  //log busvoltage, current_mA, distance, pwmGas
+  kuroli.readIna219(&myIna219); //baca shuntVoltage, busVoltage, current, loadVoltage, power
+  kuroli.sdWrite(&myIna219, &myKuroli);  //logging loadVoltage, current, power, distance, pwmGas
   kuroli.serialLog(&myIna219, &myKuroli);
   kuroli.textIna219(&myIna219); //lcd shuntvoltage, busvoltage, current_mA, loadvoltage
 
