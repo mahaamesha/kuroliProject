@@ -24,7 +24,7 @@ void Kuroli::sdInit(const byte chipSelect){
   Serial.print("Inisialisasi SD Card... ");
   if (!SD.begin(chipSelect)){
     Serial.println("GAGAL.\n");
-    //while(true);  //jika gagal, infinite loop di sini
+    while(true);  //jika gagal, infinite loop di sini
   }
   Serial.println("SUKSES.\n");
 
@@ -122,7 +122,7 @@ void Kuroli::inaInit(){
 void Kuroli::readIna219(structIna219 *_structIna219){
   (*_structIna219).shuntVoltage = _ina->getShuntVoltage_mV();
   (*_structIna219).busVoltage = _ina->getBusVoltage_V();
-  (*_structIna219).current = _ina->getCurrent_mA();// * 10;  //Multiplied by 10 -> RSHUNT=0.01
+  (*_structIna219).current = _ina->getCurrent_mA() * 10 / 2;  //Multiplied by 10 -> RSHUNT=0.01
   (*_structIna219).loadVoltage = (*_structIna219).busVoltage + ((*_structIna219).shuntVoltage / 1000);
   (*_structIna219).power = (*_structIna219).current * (*_structIna219).loadVoltage;
 }
