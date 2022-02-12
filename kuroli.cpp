@@ -39,7 +39,7 @@ void Kuroli::sdInit(const byte chipSelect){
   }
 }
 
-void Kuroli::sdWrite(structIna219 *_structIna219, structKuroli *_structKuroli){
+void Kuroli::sdWrite(structIna *_structIna219, structKuroli *_structKuroli){
   File dataFile = SD.open("log.txt", FILE_WRITE);
   if (dataFile){  //jika file sudah terinisialisai
     dataFile.print((*_structIna219).loadVoltage);
@@ -68,14 +68,14 @@ void Kuroli::sdWrite(structIna219 *_structIna219, structKuroli *_structKuroli){
 //(END) SD FUNCTION
 
 //SERIAL LOGGER FUNCTION
-void Kuroli::serialLog(structIna219 *_structIna219, structKuroli *_structKuroli){
-  Serial.print((*_structIna219).loadVoltage);
+void Kuroli::serialLog(structIna *_structIna, structKuroli *_structKuroli){
+  Serial.print((*_structIna).loadVoltage);
   Serial.print("\t");
 
-  Serial.print((*_structIna219).current);
+  Serial.print((*_structIna).current);
   Serial.print("\t");
 
-  Serial.print((*_structIna219).power);
+  Serial.print((*_structIna).power);
   Serial.print("\t");
 
   Serial.print(_hc->dist());
@@ -84,7 +84,7 @@ void Kuroli::serialLog(structIna219 *_structIna219, structKuroli *_structKuroli)
   Serial.print((*_structKuroli).pwmGas);
   Serial.print("\t");
 
-  Serial.print((*_structIna219).shuntVoltage);
+  Serial.print((*_structIna).shuntVoltage);
   Serial.print("\t");
 
   Serial.println(); //akhir baris
@@ -114,12 +114,12 @@ void Kuroli::displayInit(const byte kolom, const byte baris){   //inisialisasi d
 
 
 //INA219 FUNCTION
-void Kuroli::inaInit(){
+void Kuroli::initIna219(){
   _ina->begin();
   //_ina->setCalibration_32V_19A(); //uncomment this if not set in default
 }
 
-void Kuroli::readIna219(structIna219 *_structIna219){
+void Kuroli::readIna219(structIna *_structIna219){
   (*_structIna219).shuntVoltage = _ina->getShuntVoltage_mV();
   (*_structIna219).busVoltage = _ina->getBusVoltage_V();
   (*_structIna219).current = _ina->getCurrent_mA() * 10 / 2;  //Multiplied by 10 -> RSHUNT=0.01
@@ -127,7 +127,7 @@ void Kuroli::readIna219(structIna219 *_structIna219){
   (*_structIna219).power = (*_structIna219).current * (*_structIna219).loadVoltage;
 }
 
-void Kuroli::textIna219(structIna219 *_structIna219){
+void Kuroli::textIna219(structIna *_structIna219){
   _lcd->clear();
   _lcd->setCursor(0,0);
   _lcd->print("mVs Vbs ImA Vo");  //15 karakter

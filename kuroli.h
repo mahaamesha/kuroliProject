@@ -19,7 +19,7 @@ struct structKuroli {
   //tambah yg lain di sini
 };
 
-struct structIna219 {
+struct structIna {
   float shuntVoltage; //mV
   float busVoltage; //V
   float current; //mA
@@ -32,12 +32,12 @@ class Kuroli {
     Kuroli(byte GAS);
 
     void sdInit(const byte chipSelect);
-    void sdWrite(structIna219 *_structIna219, structKuroli *_structKuroli);
-    void serialLog(structIna219 *_structIna219, structKuroli *_structKuroli);
+    void sdWrite(structIna *_structIna, structKuroli *_structKuroli);
+    void serialLog(structIna *_structIna, structKuroli *_structKuroli);
     void displayInit(const byte kolom, const byte baris);
-    void inaInit();
-    void readIna219(structIna219 *_structIna219);
-    void textIna219(structIna219 *_structIna219);
+    void initIna219();
+    void readIna219(structIna *_structIna);
+    void textIna219(structIna *_structIna);
   
   private:
     //parameter Kuroli()

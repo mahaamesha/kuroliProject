@@ -16,12 +16,12 @@ void setup(){
   Serial.begin(9600);
 
   kuroli.sdInit(CS); //chipSelect modul sd card
-  kuroli.inaInit();
+  kuroli.initIna219();
   kuroli.displayInit(16,2);
 }
 
 void loop(){
-  structIna219 myIna219 = {0,0,0,0,0};
+  structIna myIna219 = {0,0,0,0,0};
 
   float pwmGasVoltage = analogRead(PWM_GAS)*5.0/1024.0;
   structKuroli myKuroli = {pwmGasVoltage};
