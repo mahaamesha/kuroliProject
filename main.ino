@@ -29,7 +29,7 @@ void loop(){
   kuroli.readIna219(&myIna219); //baca shuntVoltage, busVoltage, current, loadVoltage, power
   kuroli.sdWrite(&myIna219, &myKuroli);  //logging loadVoltage, current, power, distance, pwmGas
   kuroli.serialLog(&myIna219, &myKuroli);
-  kuroli.textIna219(&myIna219); //lcd shuntvoltage, busvoltage, current_mA, loadvoltage
+  kuroli.textIna(&myIna219); //lcd shuntvoltage, busvoltage, current_mA, loadvoltage
 
   delay(500);
 }

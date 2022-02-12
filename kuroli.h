@@ -10,6 +10,7 @@
 #include <Wire.h>
 #include "src/lcd/LiquidCrystal_I2C.h"
 #include "src/ina219/Adafruit_INA219.h"
+#include "src/ina226_WE/ina226_WE.h"
 #include "src/hcsr04/HCSR04.h"
 #include <SPI.h>
 #include <SD.h>
@@ -36,13 +37,15 @@ class Kuroli {
     void serialLog(structIna *_structIna, structKuroli *_structKuroli);
     void displayInit(const byte kolom, const byte baris);
     void initIna219();
-    void readIna219(structIna *_structIna);
-    void textIna219(structIna *_structIna);
+    void readIna219(structIna *_structIna219);
+    void initIna226();
+    void readIna226(structIna *_structIna226);
+    void textIna(structIna *_structIna);
   
   private:
-    //parameter Kuroli()
     LiquidCrystal_I2C *_lcd;
-    Adafruit_INA219 *_ina;
+    Adafruit_INA219 *_ina;  //uncomment if using ina219
+    INA226_WE *_ina226; //uncomment if using ina226
     HCSR04 *_hc;
 
     byte TRIG=5, ECHO=6;

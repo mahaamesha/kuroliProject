@@ -11,6 +11,7 @@ Kuroli::Kuroli(byte GAS)
 {
   _lcd = new LiquidCrystal_I2C(0x27,16,2);
   _ina = new Adafruit_INA219;
+  _ina226 = new INA226_WE;
   _hc = new HCSR04(TRIG,ECHO);    //set default pin
 
   pinMode(GAS, INPUT);
@@ -126,15 +127,40 @@ void Kuroli::readIna219(structIna *_structIna219){
   (*_structIna219).loadVoltage = (*_structIna219).busVoltage + ((*_structIna219).shuntVoltage / 1000);
   (*_structIna219).power = (*_structIna219).current * (*_structIna219).loadVoltage;
 }
+//(END) INA219 FUNCTION
 
-void Kuroli::textIna219(structIna *_structIna219){
+
+//INA226 FUNCTION
+void Kuroli::initIna226(){
+  _ina226->init();
+  //_ina226->setResistorRange(0.005, 10); //uncomment this if not set in default
+  _ina226->waitUntilConversionCompleted();  //comment this, the first data might be zero
+}
+
+void Kuroli::readIna226(structIna *_structIna226){
+  _ina226->readAndClearFlags();
+  (*_structIna226).shuntVoltage = _ina226->getShuntVoltage_mV();
+  (*_structIna226).busVoltage = _ina226->getBusVoltage_V();
+  (*_structIna226).current = _ina226->getCurrent_mA();
+  (*_structIna226).loadVoltage = (*_structIna226).busVoltage + ((*_structIna226).shuntVoltage / 1000);
+  (*_structIna226).power = _ina226->getBusPower();
+
+  //Overflow Check
+  if(!_ina226->overflow) Serial.println("Values OK - no overflow");
+  else Serial.println("Overflow! Choose higher current range");
+}
+//(END) INA226 FUNCTION
+
+
+//TEXT INA FUNCTION
+void Kuroli::textIna(structIna *_structIna){
   _lcd->clear();
   _lcd->setCursor(0,0);
   _lcd->print("mVs Vbs ImA Vo");  //15 karakter
   _lcd->setCursor(0,1);
-  _lcd->print( String((*_structIna219).shuntVoltage,1) + String(" ") );
-  _lcd->print( String((*_structIna219).busVoltage,1) + String(" ") );
-  _lcd->print( String((*_structIna219).current,1) + String(" ") );
-  _lcd->print( String((*_structIna219).loadVoltage,1) + String(" ") );
+  _lcd->print( String((*_structIna).shuntVoltage,1) + String(" ") );
+  _lcd->print( String((*_structIna).busVoltage,1) + String(" ") );
+  _lcd->print( String((*_structIna).current,1) + String(" ") );
+  _lcd->print( String((*_structIna).loadVoltage,1) + String(" ") );
 }
-//(END) INA219 FUNCTION
+//(END) TEXT INA FUNCTION
