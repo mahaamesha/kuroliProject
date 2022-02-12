@@ -132,8 +132,22 @@ void Kuroli::readIna219(structIna *_structIna219){
 
 //INA226 FUNCTION
 void Kuroli::initIna226(){
+  Wire.begin();
   _ina226->init();
+
+  /* Set Resistor and Current Range
+     resistor is 5.0 mOhm
+     current range is up to 10.0 A
+     default was 100 mOhm and about 1.3 A
+  */
   //_ina226->setResistorRange(0.005, 10); //uncomment this if not set in default
+  
+  /* If the current values delivered by the INA226 differ by a constant factor
+     from values obtained with calibrated equipment you can define a correction factor.
+     Correction factor = current delivered from calibrated equipment / current delivered by INA226
+  */
+  // ina226.setCorrectionFactor(0.95);
+
   _ina226->waitUntilConversionCompleted();  //comment this, the first data might be zero
 }
 
@@ -146,8 +160,8 @@ void Kuroli::readIna226(structIna *_structIna226){
   (*_structIna226).power = _ina226->getBusPower();
 
   //Overflow Check
-  if(!_ina226->overflow) Serial.println("Values OK - no overflow");
-  else Serial.println("Overflow! Choose higher current range");
+  if(!_ina226->overflow) Serial.println("INA226: Values OK - no overflow");
+  else Serial.println("INA226: Overflow! Choose higher current range");
 }
 //(END) INA226 FUNCTION
 
